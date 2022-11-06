@@ -74,7 +74,7 @@
                             <div class="form-group">
 
                                 <label><b>Jenis Karya</b></label>
-                                <select class="custom-select" name="jenis_karya" id="jenis_karya">
+                                <select class="custom-select" name="jenis_karya" id="jenis_karya" onchange="jenisKarya(this);">
                                     <option value="">Pilih Jenis Karya Tulis</option>
                                     <option value="Puisi">Puisi</option>
                                     <option value="Pantun">Pantun</option>
@@ -84,6 +84,10 @@
                                     <option value="Lainnya">Lainnya</option>
                             </div>
                             </select>
+                            <div class="form-group" id="jenis_lainnya" style="display: none;">
+                                <label for=""></label>
+                                <input class="form-control" type="text" id="inp_jenis_karya" placeholder="Isi Jenis Karya...">
+                            </div>
                         </div>
 
                     </div>
@@ -97,3 +101,14 @@
     </form>
 
 </div>
+
+<script>
+    function jenisKarya(that) {
+        if (that.value == "Lainnya") {
+            document.getElementById("inp_jenis_karya").setAttribute("name", "jenis_karya");
+            document.getElementById("jenis_lainnya").style.display = "block";
+        } else {
+            document.getElementById("jenis_lainnya").style.display = "none";
+        }
+    }
+</script>

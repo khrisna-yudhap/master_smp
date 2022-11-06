@@ -4,9 +4,7 @@ class M_karya extends CI_Model
 
     function get_all_karya()
     {
-        $sql = "
-            SELECT tbl_karya.*,DATE_FORMAT(karya_tanggal,'%d/%m/%Y') AS tanggal FROM tbl_karya ORDER BY karya_id DESC
-        ";
+        $sql = "SELECT tbl_karya.*,DATE_FORMAT(karya_tanggal,'%d/%m/%Y') AS tanggal FROM tbl_karya ORDER BY karya_id DESC";
 
         $q = $this->db->query($sql);
         return $q->result_array();
@@ -22,7 +20,7 @@ class M_karya extends CI_Model
 
     function getKaryaById($id)
     {
-        $sql = "SELECT * FROM tbl_karya WHERE karya_id = $id";
+        $sql = "SELECT tbl_karya.*, DATE_FORMAT(karya_tanggal,'%d/%m/%Y') AS tanggal FROM tbl_karya WHERE karya_id = $id";
 
         $q = $this->db->query($sql);
         return $q->row_array();
@@ -46,28 +44,80 @@ class M_karya extends CI_Model
 
     function get_all_comment()
     {
-        $sql = "SELECT * FROM `tbl_karya_comment` ORDER BY comment_active ASC, comment_tanggal DESC";
+        $sql = "SELECT comment_id, comment, commentator, comment_tanggal, comment_active, tbl_karya_comment.karya_id, karya_judul 
+        FROM `tbl_karya_comment` 
+        LEFT JOIN tbl_karya ON tbl_karya_comment.karya_id = tbl_karya.karya_id
+        ORDER BY comment_active ASC, comment_tanggal DESC";
 
         $q = $this->db->query($sql);
         return $q->result_array();
     }
 
+    function add_comment($comment, $commentator,   $comment_active, $karya_id)
+    {
+        $sql = "INSERT INTO tbl_karya_comment (comment, commentator,  comment_active,  karya_id) VALUES (?,  ?, ?, ?)";
+        $this->db->query($sql, array($comment, $commentator, $comment_active, $karya_id));
+
+        return $this->db->insert_id();
+    }
+
+    function update_comment($comment_id, $comment_active)
+    {
+        $sql = "UPDATE tbl_karya_comment SET comment_active = '$comment_active' WHERE comment_id = '$comment_id'";
+
+        $q = $this->db->query($sql);
+        return $q;
+    }
+
+    function delete_comment($comment_id)
+    {
+        $sql = "DELETE FROM tbl_karya_comment WHERE comment_id = '$comment_id'";
+
+        $q = $this->db->query($sql);
+        return $q;
+    }
+
     //Front-End
 
-    function berita_perpage($offset, $limit)
+    function karya()
     {
-        $hsl = $this->db->query("SELECT tbl_tulisan.*,DATE_FORMAT(tulisan_tanggal,'%d/%m/%Y') AS tanggal FROM tbl_tulisan ORDER BY tulisan_id DESC limit $offset,$limit");
+        $hsl = $this->db->query("SELECT tbl_karya.*,DATE_FORMAT(karya_tanggal,'%d/%m/%Y') AS tanggal FROM tbl_karya ORDER BY karya_id DESC");
         return $hsl;
     }
-    function get_berita_by_kode($kode)
+    function karya_perpage($offset, $limit)
     {
-        $hsl = $this->db->query("SELECT tbl_tulisan.*,DATE_FORMAT(tulisan_tanggal,'%d/%m/%Y') AS tanggal FROM tbl_tulisan where tulisan_id='$kode'");
+        $hsl = $this->db->query("SELECT tbl_karya.*,DATE_FORMAT(karya_tanggal,'%d/%m/%Y') AS tanggal FROM tbl_karya ORDER BY karya_id DESC limit $offset,$limit");
+        return $hsl;
+    }
+    function countComment($karyaId)
+    {
+        $hsl = $this->db->query("SELECT COUNT(*) AS jumlah FROM tbl_karya_comment WHERE karya_id = '$karyaId' AND comment_active = 1");
         return $hsl;
     }
 
-    function cari_berita($keyword)
+    function getCommentById($karyaId)
     {
-        $hsl = $this->db->query("SELECT tbl_tulisan.*,DATE_FORMAT(tulisan_tanggal,'%d/%m/%Y') AS tanggal FROM tbl_tulisan WHERE tulisan_judul LIKE '%$keyword%' LIMIT 5");
-        return $hsl;
+        $sql = "SELECT tbl_karya_comment.*,DATE_FORMAT(comment_tanggal,'%d/%m/%Y') AS tgl_comment FROM `tbl_karya_comment` WHERE karya_id = '$karyaId' AND comment_active = 1";
+        $q = $this->db->query($sql);
+        return $q->result_array();
+    }
+
+    function addLike($karyaid, $react)
+    {
+        $sql = "UPDATE tbl_karya SET karya_reaction = karya_reaction+1  WHERE karya_id = '$karyaid'";
+        $q = $this->db->query($sql);
+    }
+
+    function unLike($karyaid, $react)
+    {
+        $sql = "UPDATE tbl_karya SET karya_reaction = karya_reaction-1  WHERE karya_id = '$karyaid'";
+        $q = $this->db->query($sql);
+    }
+
+    function getPopularKarya()
+    {
+        $sql = "SELECT * FROM tbl_karya ORDER BY karya_reaction DESC LIMIT 1";
+        $q = $this->db->query($sql);
+        return $q->result_array();
     }
 }

@@ -23,15 +23,6 @@ class Karya extends CI_Controller
         $this->load->view('theme/admintemplate', $this->data);
     }
 
-    function comment_control()
-    {
-        $data['comment_data'] = $this->M_karya->get_all_comment();
-        $data['breadcrumb'] = 'Kelola Komentar - Karya Tulis';
-        $data['main_view'] = 'admin/v_karya_comment';
-
-        $this->load->view('theme/admintemplate', $data);
-    }
-
     function add_karya()
     {
         $this->data['breadcrumb']  = 'Tambah Karya Tulis';
@@ -82,5 +73,36 @@ class Karya extends CI_Controller
         $this->M_karya->hapus_karya($id);
         echo $this->session->set_flashdata('msg', 'success-hapus');
         redirect('admin/karya');
+    }
+
+    //comment control
+
+    function comment_control()
+    {
+        $data['comment_data'] = $this->M_karya->get_all_comment();
+        $data['breadcrumb'] = 'Kelola Komentar - Karya Tulis';
+        $data['main_view'] = 'admin/v_karya_comment';
+
+        $this->load->view('theme/admintemplate', $data);
+    }
+
+    function add_comment()
+    {
+    }
+
+    function update_comment()
+    {
+        $comment_id = $this->input->post('komentar_id');
+        $comment_active = $this->input->post('comment_active');
+
+        $this->M_karya->update_comment($comment_id, $comment_active);
+        redirect('admin/karya/comment_control');
+    }
+
+    function delete_comment($comment_id)
+    {
+        $this->M_karya->delete_comment($comment_id);
+
+        redirect('admin/karya/comment_control');
     }
 }

@@ -1,42 +1,47 @@
 <style>
-    .container {
-        position: relative;
-        width: 100%;
+    .lightbox-gallery {
+        background-image: linear-gradient(#4A148C, #E53935);
+        background-repeat: no-repeat;
         color: #000;
+        overflow-x: hidden
     }
 
-    .image {
-        width: 100%;
-        height: auto;
+    .lightbox-gallery p {
+        color: #fff
     }
 
-    .overlay {
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        opacity: 0;
-        visibility: none;
-        transition: opacity 0.3s;
+    .lightbox-gallery h2 {
+        font-weight: bold;
+        margin-bottom: 40px;
+        padding-top: 40px;
+        color: #fff
     }
 
-    .image:hover .overlay {
-        visibility: visible;
-        opacity: 1;
+    @media (max-width:767px) {
+        .lightbox-gallery h2 {
+            margin-bottom: 25px;
+            padding-top: 25px;
+            font-size: 24px
+        }
     }
 
-    .text p {
-        color: #fff;
-        font-size: 20px;
-        position: relative;
-        padding-top: 400px;
-        border-color: #000;
-        left: 50%;
-        -webkit-transform: translate(-50%, -50%);
-        -ms-transform: translate(-50%, -50%);
-        transform: translate(-50%, -50%);
-        text-align: center;
+    .lightbox-gallery .intro {
+        font-size: 16px;
+        max-width: 500px;
+        margin: 0 auto 40px;
+    }
+
+    .lightbox-gallery .intro p {
+        margin-bottom: 0;
+
+    }
+
+    .lightbox-gallery .photos {
+        padding-bottom: 20px
+    }
+
+    .lightbox-gallery .item {
+        padding-bottom: 30px
     }
 </style>
 <div class="recent_event_area" style="padding-top: 4rem;">
@@ -59,7 +64,7 @@
                                     <a href="<?php echo base_url() . 'assets/images/' . $row->galeri_gambar; ?>" class="img-pop-up">
                                         <div class="single-gallery-image" style="background: url(<?php echo base_url() . 'assets/images/' . $row->galeri_gambar; ?>);"></div>
                                     </a>
-                                    <div class="overlay">
+                                    <div class="intro" align="center">
                                         <div class="text">
                                             <p><?php echo $row->galeri_judul; ?></p>
                                         </div>

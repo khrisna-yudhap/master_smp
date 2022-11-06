@@ -53,26 +53,28 @@ function limit_words($string, $word_limit)
                             <?php
                             foreach ($data as $key => $value) :
                             ?>
-                                <td><?php echo $value['karya_judul']; ?></td>
-                                <td><?php echo $value['karya_jenis']; ?></td>
-                                <td><?php echo $value['karya_isi']; ?></td>
-                                <td><?php echo $value['karya_penulis']; ?></td>
-                                <td><?php echo $value['tanggal']; ?></td>
-                                <td>
-                                    <a href="<?php echo base_url() . 'admin/karya/edit_karya/' . $value['karya_id']; ?>" class="btn btn-info btn-icon-split">
-                                        <span class="icon text-white-50">
-                                            <i class="fas fa-info-circle"></i>
-                                        </span>
-                                        <span class="text">Edit</span>
-                                    </a>
+                                <tr>
+                                    <td><?php echo $value['karya_judul']; ?></td>
+                                    <td><?php echo $value['karya_jenis']; ?></td>
+                                    <td><?php echo $value['karya_isi']; ?></td>
+                                    <td><?php echo $value['karya_penulis']; ?></td>
+                                    <td><?php echo $value['tanggal']; ?></td>
+                                    <td>
+                                        <a href="<?php echo base_url() . 'admin/karya/edit_karya/' . $value['karya_id']; ?>" class="btn btn-info btn-icon-split">
+                                            <span class="icon text-white-50">
+                                                <i class="fas fa-info-circle"></i>
+                                            </span>
+                                            <span class="text">Edit</span>
+                                        </a>
 
-                                    <a href="#" class="btn btn-danger btn-icon-split" data-toggle="modal" data-target="#ModalHapus<?= $value['karya_id']; ?>">
-                                        <span class="icon text-white-50">
-                                            <i class="fas fa-trash"></i>
-                                        </span>
-                                        <span class="text">Hapus</span>
-                                    </a>
-                                </td>
+                                        <a href="#" class="btn btn-danger btn-icon-split" data-toggle="modal" data-target="#ModalHapus<?= $value['karya_id']; ?>">
+                                            <span class="icon text-white-50">
+                                                <i class="fas fa-trash"></i>
+                                            </span>
+                                            <span class="text">Hapus</span>
+                                        </a>
+                                    </td>
+                                </tr>
                             <?php endforeach; ?>
                         </tbody>
                     </table>

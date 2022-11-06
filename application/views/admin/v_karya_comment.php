@@ -47,8 +47,8 @@ function limit_words($string, $word_limit)
                                     <td><?= $no++; ?></td>
                                     <td>Pengunjung <b><?php echo $k['commentator']; ?></b>
                                         berkomentar</b>
-                                        pada tanggal <b><?php echo $k['comment_tanggal']; ?></b>
-                                        di postingan Karya Tulis berjudul <b>Puisi</b></td>
+                                        pada <b><?php echo $k['comment_tanggal']; ?></b>
+                                        di postingan Karya Tulis berjudul <b><?= $k['karya_judul']; ?></b></td>
                                     <td>
                                         <?php
                                         $status = $k['comment_active'];
@@ -61,7 +61,7 @@ function limit_words($string, $word_limit)
                                         <?php endif; ?>
                                     </td>
                                     <td>
-                                        <button class="btn btn-info btn-sm" data-toggle="modal" data-target="#ModalEdit<?php echo $k['comment_id']; ?>">Tinjau Komentar</button>
+                                        <button class="btn btn-info" data-toggle="modal" data-target="#ModalEdit<?php echo $k['comment_id']; ?>">Tinjau</button>
                                     </td>
                                 </tr>
 
@@ -87,7 +87,7 @@ function limit_words($string, $word_limit)
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"><span class="fa fa-close"></span></span></button>
                     <h4 class="modal-title" id="myModalLabel">Tinjau Komentar dari <?= $k['commentator']; ?></h4>
                 </div>
-                <form class="form-horizontal" action="<?php echo base_url() . 'admin/kategori/update_kategori' ?>" method="post" enctype="multipart/form-data">
+                <form class="form-horizontal" action="<?php echo base_url() . 'admin/karya/update_comment' ?>" method="post" enctype="multipart/form-data">
                     <div class="modal-body">
                         <div class="form-group">
                             <label for="inputUserName" class="control-label">Username</label>
@@ -99,7 +99,7 @@ function limit_words($string, $word_limit)
                         <div class="form-group">
                             <label for="inputUserName" class=" control-label">Isi Komentar</label>
                             <div class="col">
-                                <textarea name="commentator" class="form-control" id="inputUserName" rows="8"><?php echo $k['comment']; ?> </textarea>
+                                <textarea name="commentator" class="form-control" id="inputUserName" rows="8" disabled><?php echo $k['comment']; ?> </textarea>
                             </div>
                         </div>
                         <div class="form-group">
@@ -118,17 +118,25 @@ function limit_words($string, $word_limit)
                                 </select>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <div class="col">
-                                <a href="<?php echo base_url() . 'admin/kategori/delete_comment' ?>" class="btn btn-danger">Delete Komentar</a>
+                        <div class="form-group pr-3">
+                            <div class="row">
+                                <div class="col">
+                                    <a href="<?php echo base_url() . 'admin/karya/delete_comment/' . $k['comment_id'] ?>" class="btn btn-danger">Delete Komentar</a>
+                                </div>
+                                <div>
+                                    <button type="button" class="btn btn-default btn-flat" data-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-primary btn-flat" id="simpan">Update</button>
+                                </div>
+
                             </div>
+
                         </div>
 
 
                     </div>
                     <div class=" modal-footer">
-                        <button type="button" class="btn btn-default btn-flat" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary btn-flat" id="simpan">Update</button>
+
+
                     </div>
                 </form>
             </div>

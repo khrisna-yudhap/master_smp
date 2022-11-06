@@ -28,6 +28,7 @@
                                             <li><a href="<?php echo site_url('pengumuman'); ?>">Pengumuman</a></li>
 
                                             <li><a href="<?php echo site_url('agenda'); ?>">Agenda</a></li>
+                                            <li><a href="<?php echo site_url('karya_tulis') ?>">Karya Tulis</a></li>
                                         </ul>
                                     </li>
                                     <li><a href="#">Kegiatan <i class="ti-angle-down"></i></a>
